@@ -146,7 +146,7 @@ module VagrantPlugins
                   cpu_model.text = config.cpu_model
                 end
               else
-                if (cpu_model.text or '').strip != config.cpu_model.strip
+                if config.cpu_mode == 'custom' && (cpu_model.text or '').strip != config.cpu_model.strip
                   @logger.debug "cpu_model text updated from #{cpu_model.text} to '#{config.cpu_model}'"
                   descr_changed = true
                   cpu_model.text = config.cpu_model

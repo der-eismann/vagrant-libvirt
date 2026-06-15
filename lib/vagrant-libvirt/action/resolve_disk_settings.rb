@@ -51,12 +51,12 @@ module VagrantPlugins
               xml_descr = REXML::Document.new(domain_xml)
               domain_name = xml_descr.elements['domain'].elements['name'].text
               disks_xml = REXML::XPath.match(xml_descr, '/domain/devices/disk[@device="disk"]')
-              have_aliases = !REXML::XPath.match(disks_xml, './alias[@name="ua-box-volume-0"]').first.nil?
+              have_aliases = disks_xml.any? { |d| REXML::XPath.first(d, 'alias[@name="ua-box-volume-0"]') }
               env[:ui].warn(I18n.t('vagrant_libvirt.domain_xml.obsolete_method')) unless have_aliases
 
               if have_aliases
-                REXML::XPath.match(disks_xml,
-                                   './alias[contains(@name, "ua-box-volume-")]').each_with_index do |alias_xml, idx|
+                disks_xml.flat_map { |d| REXML::XPath.match(d, 'alias[contains(@name, "ua-box-volume-")]') }
+                         .each_with_index do |alias_xml, idx|
                   domain_volumes.push(volume_from_xml(alias_xml.parent, domain_name, idx))
                 end
               else

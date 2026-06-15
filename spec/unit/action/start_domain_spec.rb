@@ -328,6 +328,27 @@ describe VagrantPlugins::ProviderLibvirt::Action::StartDomain do
 
         expect(subject.call(env)).to be_nil
       end
+
+      context 'when libvirt has enriched host-model cpu with vendor and model text' do
+        let(:vagrantfile_providerconfig) { '' }
+        let(:domain_xml) {
+          new_xml = File.read(File.join(File.dirname(__FILE__), File.basename(__FILE__, '.rb'), 'existing.xml'))
+          new_xml.gsub!(
+            /<cpu mode='host-model' check='partial'\/>/,
+            "<cpu mode='host-model' check='partial'>\n    <model fallback='allow'>Skylake-Client-IBRS</model>\n    <vendor>Intel</vendor>\n  </cpu>"
+          )
+          new_xml
+        }
+
+        it 'should not modify the cpu element' do
+          expect(ui).to_not receive(:warn)
+          expect(connection).to_not receive(:define_domain)
+          expect(libvirt_domain).to receive(:autostart=)
+          expect(domain).to receive(:start)
+
+          expect(subject.call(env)).to be_nil
+        end
+      end
     end
 
     context 'launchSecurity' do
