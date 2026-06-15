@@ -23,8 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [3.3.8]
-        vagrant: [main]
+        ruby: ["3.3.8"]
+        vagrant: ["2.4.9"]
         allow_fail: [false]
 
     steps:
