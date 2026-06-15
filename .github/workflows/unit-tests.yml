@@ -54,30 +54,3 @@ jobs:
       env:
         BUNDLE_WITHOUT: 'development'
         VAGRANT_VERSION: ${{ matrix.vagrant }}
-    - name: Coveralls Parallel
-      uses: coverallsapp/github-action@v2
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel: true
-        path-to-lcov: ./coverage/lcov.info
-
-  finish:
-    needs: [test]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check matrix execution status
-      run: exit 1
-      # see https://stackoverflow.com/a/67532120/4907315
-      # and https://github.com/orgs/community/discussions/26822
-      if: >-
-        ${{
-             contains(needs.*.result, 'failure')
-          || contains(needs.*.result, 'cancelled')
-        }}
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@v2
-      if: contains(needs.*.result, 'skipped') == false
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
