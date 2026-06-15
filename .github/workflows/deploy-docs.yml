@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Build Docs 🔧
         uses: ./.github/workflows/build-docs
@@ -36,4 +36,3 @@ jobs:
           clean-exclude: |
             pr-preview/
             version/
-
