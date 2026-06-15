@@ -21,10 +21,9 @@ jobs:
       BUNDLE_WITHOUT: 'development'
       BUNDLE_JOBS: 4
       NOKOGIRI_USE_SYSTEM_LIBRARIES: true
-      VAGRANT_VERSION: v2.2.14
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
     - name: Set up libvirt for test generation
@@ -37,7 +36,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.6
+        ruby-version: 3.3.8
         bundler-cache: true
     - name: Generate matrix
       id: generate-matrix
@@ -50,7 +49,7 @@ jobs:
   run-tests:
     needs: generate-matrix
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -61,10 +60,9 @@ jobs:
       BUNDLE_WITHOUT: 'development'
       BUNDLE_JOBS: 4
       NOKOGIRI_USE_SYSTEM_LIBRARIES: true
-      VAGRANT_VERSION: v2.2.14
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
     - name: Set up libvirt
@@ -95,7 +93,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.6
+        ruby-version: 3.3.8
         bundler-cache: true
     - name: Run tests
       run: |
