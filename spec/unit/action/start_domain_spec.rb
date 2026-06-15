@@ -330,6 +330,7 @@ describe VagrantPlugins::ProviderLibvirt::Action::StartDomain do
       end
 
       context 'when libvirt has enriched host-model cpu with vendor and model text' do
+        let(:vagrantfile_providerconfig) { '' }
         let(:domain_xml) {
           new_xml = File.read(File.join(File.dirname(__FILE__), File.basename(__FILE__, '.rb'), 'existing.xml'))
           new_xml.gsub!(

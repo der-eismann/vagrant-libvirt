@@ -94,4 +94,6 @@ end
 
 require 'vagrant-spec/unit'
 
+require 'vagrant-libvirt'
+
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
